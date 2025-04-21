@@ -7,7 +7,7 @@ function RegisterPage() {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
 
-  const { register } = useAuth;
+  const { register } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();

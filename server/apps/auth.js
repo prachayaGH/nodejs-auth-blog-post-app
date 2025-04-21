@@ -22,7 +22,8 @@ authRouter.post("/register", async(req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     // แล้วเก็บข้อมูลลงใน Database
     try {
-        const result = await db.collection("users").insertOne(user);
+        db.collection("users")
+        await collection.insertOne(user);
         return res.status(201).json({
             message: "User has been created successfully"
         })
@@ -55,9 +56,9 @@ authRouter.post("/login", async(req,res) => {
         // มี arguments 3 ตัวคือ payload, secret, options
         // payload คือข้อมูลที่เราต้องการเก็บใน token เช่น id, username, firstName, lastName
         const token = jwt.sign(
-            {id: user.id, firstName: user.firstName, lastName: user.lastName},
+            {id: user._id, firstName: user.firstName, lastName: user.lastName},
             process.env.SECRET_KEY,
-            { expiresIn: "30" }
+            { expiresIn: "30 days" }
         )
         // ส่ง token กลับไปให้ client
         return res.status(200).json({
